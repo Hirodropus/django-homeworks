@@ -36,4 +36,4 @@ def workdir_view(request):
     workdir_contents = os.listdir('.')
     file_list = "\n".join(workdir_contents)
     msg = f'Содержимое рабочей директории:\n\n{file_list}'
-    return HttpResponse(msg, content_type='text/plain')
+    return HttpResponse(msg, content_type='text/plain; charset=utf-8')
