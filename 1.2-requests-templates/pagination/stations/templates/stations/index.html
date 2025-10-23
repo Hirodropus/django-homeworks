@@ -3,31 +3,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Basic Page Needs -->
     <meta charset="utf-8">
-    <title>Title</title>
+    <title>Автобусные остановки Москвы</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <!-- Mobile Specific Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- FONT -->
     <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
 
-    <!-- CSS -->
     <link rel="stylesheet" href="{% static "css/normalize.css" %}">
     <link rel="stylesheet" href="{% static "css/skeleton.css" %}">
+
+    <style>
+        .route-numbers {
+            background-color: #3498db;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
     <div class="row">
+        <h2>Остановки наземного транспорта Москвы</h2>
+    </div>
+
+    <div class="row">
         <table class="u-full-width">
             <thead>
             <tr>
-                <th>Name</th>
-                <th>Street</th>
-                <th>District</th>
+                <th>Название остановки</th>
+                <th>Адрес</th>
+                <th>Район</th>
+                {% if bus_stations.0.RouteNumbers %}
+                <th>Маршруты</th>
+                {% endif %}
             </tr>
             </thead>
             <tbody>
@@ -36,18 +50,23 @@
                     <td>{{ station.Name }}</td>
                     <td>{{ station.Street }}</td>
                     <td>{{ station.District }}</td>
+                    {% if station.RouteNumbers %}
+                    <td><span class="route-numbers">{{ station.RouteNumbers }}</span></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
             </tbody>
         </table>
 
-        {% if page.has_previous %}
-            <a class="button button-primary" href="?page={{ page.previous_page_number }}">⟵</a>
-        {% endif %}
-        <a class="button disabled" href="">{{ page.number }}</a>
-        {% if page.has_next %}
-            <a class="button button-primary" href="?page={{ page.next_page_number }}">⟶</a>
-        {% endif %}
+        <div style="margin-top: 20px;">
+            {% if page.has_previous %}
+                <a class="button button-primary" href="?page={{ page.previous_page_number }}">⟵ Назад</a>
+            {% endif %}
+            <a class="button disabled" href="">Страница {{ page.number }} из {{ page.paginator.num_pages }}</a>
+            {% if page.has_next %}
+                <a class="button button-primary" href="?page={{ page.next_page_number }}">Вперёд ⟶</a>
+            {% endif %}
+        </div>
     </div>
 </div>
 </body>
